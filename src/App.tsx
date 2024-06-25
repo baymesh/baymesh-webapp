@@ -4,6 +4,7 @@ import Home from './views/Home';
 import Node from './views/Node';
 
 import './App.css'
+import NodeSearch from './components/NodeSearch';
 
 export default function App() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function App() {
       <View paddingStart={"size-100"} paddingEnd={"size-100"}>
         <Grid
           areas={[
-            'header header',
+            'header search',
             'content content',
             'footer footer'
           ]}
@@ -43,18 +44,22 @@ export default function App() {
           <View paddingTop={"size-100"} gridArea="header">
             <Flex direction={"row"} wrap={"wrap"} justifyContent={"left"} width="100%" gap={"size-100"}>
               {headerMenuItem("🏠", "Home", "/")}
-              {headerMenuItem("🛰️", "OHR", "/node/3b46b95c")}
+              {headerMenuItem("🛰️1", "OHR", "/node/3b46b95c")}
+              {headerMenuItem("🛰️2", "NOHR", "/node/75f1804c")}
+              {headerMenuItem("🛰️3", "JimM", "/node/eecfe349")}
+              {headerMenuItem("🛰️4", "MAM", "/node/fa6dc348")}
             </Flex>
           </View>
+          <View gridArea="search" justifySelf={"end"} paddingTop="size-300" paddingEnd={"size-100"}><NodeSearch /></View>
           <View gridArea="content">
             <Routes>
-              <Route path="/node/*" element={<Node />} />
+              <Route path="/node/:nodeHexId" element={<Node />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </View>
           <View gridArea='footer'>
             <Flex alignItems={"center"} direction={"column"}>
-              <Footer>built with 🩸 &amp; 💦 by <a href="https://www.qrz.com/db/K6SH" target={"_blank"} rel={"noreferrer"}>K6SH</a></Footer>
+              <Footer>built with 🩸 &amp; 💦 by <a href="https://k6sh.com" target={"_blank"} rel={"noreferrer"}>K6SH</a> and the <a href="https://bayme.sh" target={"_blank"} rel={"noreferrer"}>bayme.sh</a> team</Footer>
             </Flex>
           </View>
         </Grid>

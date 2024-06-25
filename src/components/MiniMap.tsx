@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L, { LatLngExpression } from 'leaflet';
 import { View } from '@adobe/react-spectrum';
+import { NodeLocation } from '../utils/BayMeshApi';
 
 import "leaflet/dist/leaflet.css";
 
 interface MiniMapProps {
-  latitude: number;
-  longitude: number;
+  nodeLocation: NodeLocation;
 }
 
-export default function MiniMap({ latitude, longitude }: MiniMapProps) {
-  const location: LatLngExpression = [latitude, longitude];
+export default function MiniMap({ nodeLocation }: MiniMapProps) {
+  const location: LatLngExpression = [nodeLocation.latitude, nodeLocation.longitude];
 
   var nodeIcon = new L.Icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -30,6 +30,23 @@ export default function MiniMap({ latitude, longitude }: MiniMapProps) {
     shadowSize: [36, 36]
   });
 
+  const markerElements = [<Marker position={location} icon={nodeIcon} />
+  ]
+
+  if (nodeLocation.gateways) {
+    Object.entries(nodeLocation.gateways).map(([_, gateway], idx) => {
+      {
+        if (gateway && gateway.latitude && gateway.longitude) {
+          markerElements.push(<Marker
+            key={idx}
+            position={[gateway.latitude, gateway.longitude]}
+            icon={gatewayIcon}
+          />);
+        }
+      }
+    })
+  }
+
   return (
     <View width="320px" height="320px">
       <MapContainer center={location} zoom={12} style={{
@@ -38,7 +55,7 @@ export default function MiniMap({ latitude, longitude }: MiniMapProps) {
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={location} icon={nodeIcon} />
+        {markerElements.reverse()}
       </MapContainer>
     </View >
   );

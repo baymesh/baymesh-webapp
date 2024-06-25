@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.35.1",
+    "@sentry/react": "^8.11.0",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.23.1"
   }

@@ -1,8 +1,11 @@
 import React from 'react';
+import { Flex, Text } from '@adobe/react-spectrum';
 
 const Home: React.FC = () => {
     return (
-        <p>bayme.sh</p>
+        <Flex direction={"column"} justifyContent={"center"} alignItems={"center"}>
+            <Text>Data Stuffs Here...</Text>
+        </Flex>
     );
 };
 

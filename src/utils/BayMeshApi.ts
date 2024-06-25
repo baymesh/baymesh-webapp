@@ -16,6 +16,15 @@ export interface NodeLocation {
   longitude: number;
   altitude: number;
   time: Date;
+  gateways: {
+    [key: string]: {
+      long_name: string;
+      latitude: number;
+      longitude: number;
+      altitude: number;
+      time: string;
+    }
+  };
 }
 
 class BayMeshApi {
@@ -33,9 +42,15 @@ class BayMeshApi {
     return this.apiGet(`/coverage/${nodeHexId}?limit=1`)
   }
 
+  getNodeInfos(): Promise<{ [id: string]: NodeInfo }> {
+    return this.apiGet('/node/infos')
+  }
+
   async apiGet(path: string) {
     const response = await fetch(`${this.url}${path}`);
-    return response.json();
+    const text = await response.text();
+    const cleanedText = text.replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+    return JSON.parse(cleanedText);
   }
 }
 
