@@ -17,11 +17,11 @@ export default function Node() {
     useEffect(() => {
         Promise.all([
             bayMeshApi.getNodeInfo(nodeHexId),
-            bayMeshApi.getNodeLocation(nodeHexId)
-        ]).then(([nodeInfo, nodeLocation]) => {
-            if (nodeLocation && nodeLocation.length > 0) {
-                setNodeLocation(nodeLocation[0]);
-                console.log(nodeLocation[0]);
+            bayMeshApi.getNodeLocations(nodeHexId, 1)
+        ]).then(([nodeInfo, nodeLocations]) => {
+            if (nodeLocations && nodeLocations.length > 0) {
+                setNodeLocation(nodeLocations[0]);
+                // console.log(nodeLocations[0]);
             }
             setNodeInfo(nodeInfo);
             setIsLoading(false);

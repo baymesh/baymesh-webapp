@@ -27,6 +27,11 @@ export interface NodeLocation {
   };
 }
 
+// interface that is a hash of NodeInfo with the key being the node id
+export interface NodeInfoMap {
+  [key: string]: NodeInfo;
+}
+
 class BayMeshApi {
   url: string;
 
@@ -38,11 +43,11 @@ class BayMeshApi {
     return this.apiGet(`/node/info/${nodeHexId}`)
   }
 
-  getNodeLocation(nodeHexId: string): Promise<NodeLocation[]> {
-    return this.apiGet(`/coverage/${nodeHexId}?limit=1`)
+  getNodeLocations(nodeHexId: string, limit: number): Promise<NodeLocation[]> {
+    return this.apiGet(`/coverage/${nodeHexId}?limit=${limit}`)
   }
 
-  getNodeInfos(): Promise<{ [id: string]: NodeInfo }> {
+  getNodeInfos(): Promise<NodeInfoMap> {
     return this.apiGet('/node/infos')
   }
 

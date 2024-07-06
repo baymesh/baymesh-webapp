@@ -1,18 +1,19 @@
 import { ComboBox, Item, useFilter, Text } from '@adobe/react-spectrum';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import BayMeshApi, { NodeInfo } from '../utils/BayMeshApi';
+import { NodeInfo, NodeInfoMap } from '../utils/BayMeshApi';
 
-export default function NodeSearch() {
+export default function NodeSearch({ nodeInfos }: { nodeInfos: NodeInfoMap }) {
   const navigate = useNavigate();
-  const bayMeshApi = new BayMeshApi();
   const [options, setOptions] = React.useState<NodeInfo[]>([]);
 
   useEffect(() => {
-    bayMeshApi.getNodeInfos().then((nodeInfos) => {
-      setOptions(Object.keys(nodeInfos).map((key) => nodeInfos[key]).sort((a, b) => a.updatedAt - b.updatedAt));
-    })
-  }, []);
+    if (!nodeInfos || Object.keys(nodeInfos).length === 0) {
+      setOptions([]);
+      return;
+    }
+    setOptions(Object.keys(nodeInfos).map((key) => nodeInfos[key]).sort((a, b) => a.updatedAt - b.updatedAt));
+  }, [nodeInfos]);
 
   let [showAll, setShowAll] = React.useState(false);
   let [filterValue, setFilterValue] = React.useState('');
@@ -31,6 +32,7 @@ export default function NodeSearch() {
           setShowAll(true);
         }
       }}
+      loadingState={options && options.length > 0 ? 'idle' : 'loading'}
       width="size-5000"
       maxWidth="100%"
       placeholder='Node Search'
