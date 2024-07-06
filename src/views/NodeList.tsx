@@ -133,7 +133,7 @@ export default function NodeList({ nodeInfos }: { nodeInfos: NodeInfoMap }) {
                 items={pickerOptions}
                 onSelectionChange={(key) => {
                     if (key === 'ALL') {
-                        setColumnFilters([])
+                        setColumnFilters(columnFilters.filter((n) => n.id !== columnId))
                     } else {
                         setColumnFilters(
                             columnFilters.filter((n) => n.id !== columnId).concat([
