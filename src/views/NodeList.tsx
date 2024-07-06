@@ -153,7 +153,7 @@ export default function NodeList({ nodeInfos }: { nodeInfos: NodeInfoMap }) {
         };
 
         return (
-            <Flex direction={"column"} gap="size-100">
+            <Flex direction={"column"} gap="size-100" height={"95vh"}>
                 <Heading level={2}>Nodes in cache</Heading>
                 <Flex direction={"row"} gap="size-100" marginBottom={10}>
                     {columFilter('role', 'Role')}
